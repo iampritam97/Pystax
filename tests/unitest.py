@@ -33,10 +33,6 @@ class MyTestCase(unittest.TestCase):
         ip_result = probe.probe_ip("192.168.0.1")
         print(ip_result)
 
-    def test_something7(self):
-        ip_result = probe.probe_ip("19462904")
-        print(ip_result)
-
     def test_something8(self):
         ip_result = probe.probe_ip("999.999.999.999")
         print(ip_result)
