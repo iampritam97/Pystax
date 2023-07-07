@@ -1,13 +1,14 @@
 import socket
 import http.client
 import ssl
+import urllib
 
 
 class DomainProbe:
     def __init__(self):
         self.conn = None
 
-    def probe_domain(self, domain):
+    def probe_domain(self, domain, max_redirects=5):
         try:
             if domain.lower() == "localhost" or domain == "127.0.0.1":
                 return "HTTP", 200
@@ -20,6 +21,15 @@ class DomainProbe:
             self.conn = http.client.HTTPSConnection(domain, timeout=5, context=context)
             self.conn.request("GET", "/")
             response = self.conn.getresponse()
+            if response.status in (301, 302, 303, 307, 308):
+                if max_redirects > 0:
+                    location = response.getheader("Location")
+                    if location:
+                        parsed_url = urllib.parse.urlparse(location)
+                        next_domain = parsed_url.netloc
+                        return self.probe_domain(next_domain, max_redirects=max_redirects - 1)
+                return "Error: Too many redirects"
+
             return "HTTPS", response.status
         except (socket.gaierror, http.client.HTTPException):
             try:

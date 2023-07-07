@@ -15,7 +15,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 # This call to setup() does all the work
 setup(
     name="pystax",
-    version="0.1.0",
+    version="0.2.0",
     description="pystax Python library",
     long_description="The pystax is a Python library that allows you to probe domains and IP addresses to check their status codes. It helps you verify the accessibility of a domain or IP by performing an HTTP request and retrieving the corresponding status code.,",
     long_description_content_type="text/markdown",
